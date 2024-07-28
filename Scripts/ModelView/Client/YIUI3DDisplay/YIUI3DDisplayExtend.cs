@@ -8,6 +8,7 @@ namespace YIUIFramework
     /// <summary>
     /// 3DDisplay的扩展
     /// 自带创建与对象池 基础需求使用更简单
+    /// 文档: https://lib9kmxvq7k.feishu.cn/wiki/FhGGwVZSyiCqHCkTVQYcKHQCnKf
     /// </summary>
     [EnableClass]
     public partial class YIUI3DDisplayExtend

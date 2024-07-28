@@ -17,6 +17,7 @@ namespace YIUIFramework
 {
     /// <summary>
     /// 这个类用于在UI中显示3D对象。
+    /// 文档: https://lib9kmxvq7k.feishu.cn/wiki/FhGGwVZSyiCqHCkTVQYcKHQCnKf
     /// </summary>
     public sealed partial class UI3DDisplay : SerializedMonoBehaviour,
                                               IDragHandler,
