@@ -1,6 +1,6 @@
-# YIUI UI上展示3D模型 
+# [YIUI UI上展示3D模型](https://lib9kmxvq7k.feishu.cn/wiki/FhGGwVZSyiCqHCkTVQYcKHQCnKf)
 
-# [文档](https://lib9kmxvq7k.feishu.cn/wiki/ES7Gwz4EAiVGKSkotY5cRbTznuh)
+# [YIUI 文档](https://lib9kmxvq7k.feishu.cn/wiki/ES7Gwz4EAiVGKSkotY5cRbTznuh)
 
 # [YIUI-ET9.0](https://github.com/LiShengYang-yiyi/YIUI/tree/YIUI-ET9.0)
 
