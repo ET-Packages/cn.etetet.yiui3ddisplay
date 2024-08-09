@@ -12,6 +12,8 @@ namespace YIUIFramework
     {
         public async ETTask<GameObject> ShowAsync(string resName, string cameraName = "")
         {
+            using var coroutineLock = await EventSystem.Instance?.YIUIInvokeAsync<YIUIInvokeCoroutineLock, ETTask<Entity>>(new YIUIInvokeCoroutineLock { Lock = this.GetHashCode() });
+
             var obj = await GetDisplayObjectAsync(resName);
             if (obj == null) return null;
             var camera = string.IsNullOrEmpty(cameraName) ? m_UI3DDisplay.ShowCamera : GetCamera(obj, cameraName);
@@ -33,8 +35,7 @@ namespace YIUIFramework
 
         private async ETTask<GameObject> CreateObjectAsync(string resName)
         {
-            var obj = await EventSystem.Instance?.YIUIInvokeAsync<YIUIInvokeInstantiateGameObject, ETTask<GameObject>>(
-                new YIUIInvokeInstantiateGameObject { ResName = resName });
+            var obj = await EventSystem.Instance?.YIUIInvokeAsync<YIUIInvokeInstantiateGameObject, ETTask<GameObject>>(new YIUIInvokeInstantiateGameObject { ResName = resName });
 
             if (obj == null)
             {
