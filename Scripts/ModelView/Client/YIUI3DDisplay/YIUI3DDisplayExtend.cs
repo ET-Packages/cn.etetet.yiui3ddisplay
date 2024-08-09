@@ -94,15 +94,15 @@ namespace YIUIFramework
             var cameraTsf = obj.transform.FindChildByName(cameraName);
             if (cameraTsf == null)
             {
-                Debug.LogError($"{obj.name} 没有找到目标摄像机 {cameraName} 请检查");
-                return null;
+                Debug.LogError($"{obj.name} 没有找到目标摄像机 {cameraName} 请检查 将使用默认摄像机");
+                return m_UI3DDisplay.ShowCamera;
             }
 
             var camera = cameraTsf.GetComponent<Camera>();
             if (camera == null)
             {
-                Debug.LogError($"{obj.name} 没有找到目标摄像机组件 {cameraName} 请检查");
-                return null;
+                Debug.LogError($"{obj.name} 没有找到目标摄像机组件 {cameraName} 请检查 将使用默认摄像机");
+                return m_UI3DDisplay.ShowCamera;
             }
 
             return camera;
