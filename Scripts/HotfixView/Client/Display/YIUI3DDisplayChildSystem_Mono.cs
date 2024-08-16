@@ -75,11 +75,11 @@ namespace ET.Client
         [EntitySystem]
         private static void LateUpdate(this YIUI3DDisplayChild self)
         {
-            if (!self.UI3DDisplay.m_ShowCamera)
+            if (!self.UI3DDisplay.m_AutoSyncLookCamera)
                 return;
 
-            //自动同步摄像机位置旋转
-            if (self.UI3DDisplay.m_AutoSync && self.UI3DDisplay.m_LookCamera)
+            //自动同步摄像机位置旋转 ShowCamera的位置 = LookCamera的位置
+            if (self.UI3DDisplay.m_AutoSyncLookCamera && self.UI3DDisplay.m_LookCamera)
             {
                 var tsf = self.UI3DDisplay.m_LookCamera.transform;
                 self.UI3DDisplay.m_ShowCamera.transform.SetPositionAndRotation(tsf.position, tsf.rotation);

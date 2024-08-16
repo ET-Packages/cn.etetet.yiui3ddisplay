@@ -63,6 +63,8 @@ namespace ET.Client
 
             self.SetAllAnimatorCullingMode(obj.transform);
 
+            self.SetColliderLayer(obj);
+
             self.SetupShowLayerTarget(obj.transform);
 
             self.m_AllMultipleTarget.Add(obj);

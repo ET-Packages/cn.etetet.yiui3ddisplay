@@ -45,7 +45,9 @@ namespace YIUIFramework
             var renderers = ListPool<Renderer>.Get();
             transform.GetComponentsInChildren(true, renderers);
             foreach (var renderer in renderers)
+            {
                 renderer.gameObject.layer = 0;
+            }
             ListPool<Renderer>.Put(renderers);
         }
 
@@ -56,7 +58,9 @@ namespace YIUIFramework
             var renderers = ListPool<Renderer>.Get();
             transform.GetComponentsInChildren(true, renderers);
             foreach (var renderer in renderers)
+            {
                 renderer.gameObject.layer = ShowLayer;
+            }
             ListPool<Renderer>.Put(renderers);
         }
 

@@ -228,7 +228,7 @@ MonoBehaviour:
     - Name: m_UseLookCameraColor
       Entry: 5
       Data: false
-    - Name: m_AutoSync
+    - Name: m_AutoSyncLookCamera
       Entry: 5
       Data: false
     - Name: m_MultipleTargetMode
@@ -246,6 +246,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: m_AutoSetColliderLayer
+      Entry: 5
+      Data: true
 --- !u!1 &2671174364145125692
 GameObject:
   m_ObjectHideFlags: 0

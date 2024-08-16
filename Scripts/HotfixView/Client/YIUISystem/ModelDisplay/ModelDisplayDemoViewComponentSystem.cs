@@ -35,7 +35,17 @@ namespace ET.Client
 
         private static async ETTask Show(this ModelDisplayDemoViewComponent self)
         {
-            await self.Display.ShowAsync("DisplayDemoModel","CustomCamera");
+            await self.Display.ShowAsync("DisplayDemoModel", "CustomCamera");
+            self.Display.SetClickEvent(self.OnClickModel);
+        }
+
+        [YIUIInvoke]
+        private static void OnClickModel(this ModelDisplayDemoViewComponent self, GameObject target, GameObject root)
+        {
+            Log.Info($"点击模型 目标: {target.name}  根节点:{root.name}");
+            #if UNITY_EDITOR
+            UnityEditor.Selection.activeObject = target;
+            #endif
         }
 
         #region YIUIEvent开始

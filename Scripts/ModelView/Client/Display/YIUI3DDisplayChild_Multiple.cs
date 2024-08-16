@@ -16,8 +16,8 @@ namespace ET.Client
         //可动态设置改变多目标 但是尽量不要
         public bool MultipleTargetMode
         {
-            get => this.UI3DDisplay.m_MultipleTargetMode;
-            set => this.UI3DDisplay.m_MultipleTargetMode = value;
+            get => UI3DDisplay.m_MultipleTargetMode;
+            set => UI3DDisplay.m_MultipleTargetMode = value;
         }
 
         public List<GameObject> m_AllMultipleTarget;

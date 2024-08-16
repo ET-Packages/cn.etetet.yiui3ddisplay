@@ -43,35 +43,18 @@ namespace ET.Client
             self.UpdateLookCamera(lookCamera);
         }
 
-        /// <summary>
-        /// 设置动画选择目标
-        /// </summary>
-        private static void SetAnimatorCullingMode(this YIUI3DDisplayChild self, Transform target)
-        {
-            var animator = target.GetComponent<Animator>();
-            if (animator)
-                animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
-        }
-
         //设置所有动画
         //总是让整个角色动画化。对象即使在屏幕外也是动画的。
         //因为我们会吧对象丢到屏幕外否则动画可能会不动
         private static void SetAllAnimatorCullingMode(this YIUI3DDisplayChild self, Transform target)
         {
-            self.SetAnimatorCullingMode(target);
-            for (var i = 0; i < target.childCount; ++i)
+            var animators = ListPool<Animator>.Get();
+            target.GetComponentsInChildren(true, animators);
+            foreach (var animator in animators)
             {
-                self.SetAnimatorCullingMode(target.GetChild(i));
+                animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
             }
-        }
-
-        //吧指定对象的层级改为设定的层级
-        private static void SetupShowLayer(this YIUI3DDisplayChild self)
-        {
-            if (self.m_ShowCameraCtrl != null && self.m_ShowCameraCtrl.ShowObject != null)
-            {
-                self.m_ShowCameraCtrl.SetupRenderer(self.m_ShowCameraCtrl.ShowObject.transform);
-            }
+            ListPool<Animator>.Put(animators);
         }
 
         //设置默认UI3D显示层级
@@ -80,6 +63,19 @@ namespace ET.Client
             self.m_ShowLayer = LayerMask.NameToLayer(YIUIConstHelper.Const.YIUI3DLayer);
             if (self.m_ShowLayer != -1) return;
             Debug.LogError($"当前设定的UI层级不存在  {YIUIConstHelper.Const.YIUI3DLayer} 层级 请手动添加");
+        }
+
+        //设置碰撞体的层级
+        private static void SetColliderLayer(this YIUI3DDisplayChild self, GameObject obj)
+        {
+            if (self.UI3DDisplay == null || !self.UI3DDisplay.m_AutoSetColliderLayer) return;
+            var renderers = ListPool<Collider>.Get();
+            obj.GetComponentsInChildren(true, renderers);
+            foreach (var renderer in renderers)
+            {
+                renderer.gameObject.layer = self.m_ShowLayer;
+            }
+            ListPool<Collider>.Put(renderers);
         }
 
         /// <summary>
@@ -110,6 +106,7 @@ namespace ET.Client
                 self.RecycleLastShow(self.UI3DDisplay.m_ShowObject);
 
             showObject.SetActive(true);
+            self.SetColliderLayer(showObject);
 
             self.UI3DDisplay.m_ShowObject = showObject;
 
@@ -136,7 +133,7 @@ namespace ET.Client
             }
 
             //对象层级
-            self.m_ShowCameraCtrl.ShowLayer  = self.m_ShowLayer;
+            self.m_ShowCameraCtrl.ShowLayer = self.m_ShowLayer;
             self.m_ShowCameraCtrl.ShowObject = self.UI3DDisplay.m_ShowObject;
 
             //动画屏幕外也可动

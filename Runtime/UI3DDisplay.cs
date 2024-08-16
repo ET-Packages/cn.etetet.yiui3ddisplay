@@ -145,8 +145,8 @@ namespace YIUIFramework
         [NonSerialized]
         [OdinSerialize]
         [ShowInInspector]
-        [LabelText("自动同步")]
-        public bool m_AutoSync;
+        [LabelText("自动同步摄像机位置旋转")]
+        public bool m_AutoSyncLookCamera;
 
         [NonSerialized]
         [OdinSerialize]
@@ -160,6 +160,12 @@ namespace YIUIFramework
         [OdinSerialize]
         [ShowInInspector]
         public Vector2 m_OnClickOffset = new Vector2(50, 50);
+
+        [NonSerialized]
+        [OdinSerialize]
+        [ShowInInspector]
+        [LabelText("自动设置碰撞层级")]
+        public bool m_AutoSetColliderLayer = true;
 
         [NonSerialized]
         [HideInInspector]

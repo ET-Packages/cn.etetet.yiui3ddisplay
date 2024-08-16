@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -14,19 +15,26 @@ namespace ET.Client
     public static partial class YIUI3DDisplayChildSystem
     {
         //添加点击回调
-        public static void SetClickEvent(this YIUI3DDisplayChild self, Entity owner, Action<GameObject, GameObject> action)
+        //注意方法需要加上[YIUIInvoke]特性
+        public static void SetClickEvent(this YIUI3DDisplayChild self, Action<GameObject, GameObject> onClickInvoke)
         {
-            self.m_OnClickedEntity               = owner;
-            self.m_OnClickInvokeName             = action.GetType().Name;
-            self.UI3DDisplay.m_OnClickInvokeName = self.m_OnClickInvokeName;
+            var onClickInvokeName = onClickInvoke.GetMethodInfo().Name;
+            self.SetClickEvent(onClickInvokeName);
+        }
+
+        //添加点击回调
+        //用此方法必须保证方法的参数为(GameObject, GameObject)
+        public static void SetClickEvent(this YIUI3DDisplayChild self, string onClickInvokeName)
+        {
+            self.m_OnClickedEntity = self.Parent;
+            self.OnClickInvokeName = onClickInvokeName;
         }
 
         //移除点击回调
         public static void RemoveClickEvent(this YIUI3DDisplayChild self)
         {
-            self.m_OnClickedEntity               = null;
-            self.m_OnClickInvokeName             = null;
-            self.UI3DDisplay.m_OnClickInvokeName = null;
+            self.m_OnClickedEntity = null;
+            self.OnClickInvokeName = null;
         }
 
         //从屏幕坐标发送射线检测
@@ -41,6 +49,16 @@ namespace ET.Client
 
             localScreenPoint -= rect.rect.min;
             var ray = self.UI3DDisplay.m_ShowCamera.ScreenPointToRay(localScreenPoint);
+
+            /*
+            {
+                Vector3 rayOrigin    = self.UI3DDisplay.m_ShowCamera.transform.position;
+                Vector3 rayDirection = ray.direction;
+                float rayLength = 100f;
+                Debug.DrawLine(rayOrigin, rayOrigin + rayDirection * rayLength, Color.red, 100f);
+            }
+            */
+
             return Physics.Raycast(ray, out hitInfo, float.PositiveInfinity, 1 << self.m_ShowLayer);
         }
 
@@ -48,8 +66,6 @@ namespace ET.Client
         [YIUIInvoke]
         public static void OnDrag(this YIUI3DDisplayChild self, PointerEventData eventData)
         {
-            if (!self.UI3DDisplay.m_CanDrag) return;
-
             if (!self.m_DragTarge || !(self.UI3DDisplay.m_DragSpeed > 0.0f)) return;
 
             var delta    = eventData.delta.x;
@@ -74,9 +90,6 @@ namespace ET.Client
         [YIUIInvoke]
         public static void OnPointerDown(this YIUI3DDisplayChild self, PointerEventData eventData)
         {
-            if (string.IsNullOrEmpty(self.m_OnClickInvokeName))
-                return;
-
             if (self.UI3DDisplay.m_MultipleTargetMode)
             {
                 if (!self.Raycast(eventData.position, out self.m_DragRaycastHit))
@@ -92,9 +105,6 @@ namespace ET.Client
         [YIUIInvoke]
         public static void OnPointerUp(this YIUI3DDisplayChild self, PointerEventData eventData)
         {
-            if (string.IsNullOrEmpty(self.m_OnClickInvokeName))
-                return;
-
             if (!self.ClickSucceed(eventData.position))
                 return;
 
@@ -107,7 +117,7 @@ namespace ET.Client
             try
             {
                 //参数1 被点击的对象 参数2 他的最终父级是谁(显示对象)
-                YIUIInvokeSystem.Instance?.Invoke(self.OnClickedEntity, self.m_OnClickInvokeName, clickObj, clickObjParent);
+                YIUIInvokeSystem.Instance?.Invoke(self.OnClickedEntity, self.OnClickInvokeName, clickObj, clickObjParent);
             }
             catch (Exception e)
             {
