@@ -13,7 +13,7 @@ namespace ET.Client
     {
         //同步显示对象
         //尽量使用异步方式 ShowAsync
-        //已知如果同步与异步同时调用加载相同资源的情况会报错 请自行处理
+        //已知如果同步与异步同时调用加载相同资源的情况会报错 等等特殊情况 请自行处理
         public static GameObject ShowSync(this YIUI3DDisplayChild self, string resName, string cameraName = "")
         {
             if (self.UI3DDisplay == null)

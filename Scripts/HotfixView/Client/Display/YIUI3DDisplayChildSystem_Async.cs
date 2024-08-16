@@ -19,7 +19,7 @@ namespace ET.Client
                 return null;
             }
 
-            using var coroutineLock = await EventSystem.Instance?.YIUIInvokeAsync<YIUIInvokeCoroutineLock, ETTask<Entity>>(new YIUIInvokeCoroutineLock { Lock = self.GetHashCode() });
+            using var coroutineLock = await YIUIMgrComponent.Inst?.Root().GetComponent<CoroutineLockComponent>().Wait(CoroutineLockType.YIUIFramework, self.GetHashCode());
 
             var obj = await self.GetDisplayObjectAsync(resName);
             if (obj == null) return null;
