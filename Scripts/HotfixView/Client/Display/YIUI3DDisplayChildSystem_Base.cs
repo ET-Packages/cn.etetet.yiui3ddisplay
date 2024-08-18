@@ -54,6 +54,7 @@ namespace ET.Client
             {
                 animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
             }
+
             ListPool<Animator>.Put(animators);
         }
 
@@ -75,6 +76,7 @@ namespace ET.Client
             {
                 renderer.gameObject.layer = self.m_ShowLayer;
             }
+
             ListPool<Collider>.Put(renderers);
         }
 
@@ -133,7 +135,7 @@ namespace ET.Client
             }
 
             //对象层级
-            self.m_ShowCameraCtrl.ShowLayer = self.m_ShowLayer;
+            self.m_ShowCameraCtrl.ShowLayer  = self.m_ShowLayer;
             self.m_ShowCameraCtrl.ShowObject = self.UI3DDisplay.m_ShowObject;
 
             //动画屏幕外也可动

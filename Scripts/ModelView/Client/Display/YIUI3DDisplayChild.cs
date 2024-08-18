@@ -10,7 +10,7 @@ namespace ET.Client
     /// 文档: https://lib9kmxvq7k.feishu.cn/wiki/FhGGwVZSyiCqHCkTVQYcKHQCnKf
     /// </summary>
     [ChildOf]
-    public partial class YIUI3DDisplayChild : Entity, IAwake<UI3DDisplay>, IDestroy ,IYIUIEnable,IYIUIDisable,ILateUpdate
+    public partial class YIUI3DDisplayChild : Entity, IAwake<UI3DDisplay>, IDestroy, IYIUIEnable, IYIUIDisable, ILateUpdate
     {
         public UI3DDisplay m_UI3DDisplay;
 

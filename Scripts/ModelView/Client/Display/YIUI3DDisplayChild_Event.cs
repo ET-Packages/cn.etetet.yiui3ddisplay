@@ -32,7 +32,7 @@ namespace ET.Client
         //被点击的触发实体的调用名称
         //参数1 被点击的对象 参数2 他的最终父级是谁(显示对象)
         private string m_OnClickInvokeName;
-        
+
         public string OnClickInvokeName
         {
             get => m_OnClickInvokeName;
@@ -44,6 +44,6 @@ namespace ET.Client
                     UI3DDisplay.m_OnClickInvokeName = value;
                 }
             }
-        } 
+        }
     }
 }
