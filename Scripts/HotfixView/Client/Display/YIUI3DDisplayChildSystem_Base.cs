@@ -48,14 +48,14 @@ namespace ET.Client
         //因为我们会吧对象丢到屏幕外否则动画可能会不动
         private static void SetAllAnimatorCullingMode(this YIUI3DDisplayChild self, Transform target)
         {
-            var animators = ListPool<Animator>.Get();
+            var animators = YIUIFramework.ListPool<Animator>.Get();
             target.GetComponentsInChildren(true, animators);
             foreach (var animator in animators)
             {
                 animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
             }
 
-            ListPool<Animator>.Put(animators);
+            YIUIFramework.ListPool<Animator>.Put(animators);
         }
 
         //设置默认UI3D显示层级
@@ -70,14 +70,14 @@ namespace ET.Client
         private static void SetColliderLayer(this YIUI3DDisplayChild self, GameObject obj)
         {
             if (self.UI3DDisplay == null || !self.UI3DDisplay.m_AutoSetColliderLayer) return;
-            var renderers = ListPool<Collider>.Get();
+            var renderers = YIUIFramework.ListPool<Collider>.Get();
             obj.GetComponentsInChildren(true, renderers);
             foreach (var renderer in renderers)
             {
                 renderer.gameObject.layer = self.m_ShowLayer;
             }
 
-            ListPool<Collider>.Put(renderers);
+            YIUIFramework.ListPool<Collider>.Put(renderers);
         }
 
         /// <summary>
