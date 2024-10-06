@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using YIUIFramework;
-using System.Collections.Generic;
 
 namespace ET.Client
 {
@@ -43,9 +42,6 @@ namespace ET.Client
         private static void OnClickModel(this ModelDisplayDemoViewComponent self, GameObject target, GameObject root)
         {
             Log.Info($"点击模型 目标: {target.name}  根节点:{root.name}");
-            #if UNITY_EDITOR
-            UnityEditor.Selection.activeObject = target;
-            #endif
         }
 
         #region YIUIEvent开始
