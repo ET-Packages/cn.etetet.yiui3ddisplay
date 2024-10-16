@@ -45,13 +45,6 @@ namespace ET.Client
         }
 
         #region YIUIEvent开始
-
-        [YIUIInvoke]
-        private static async ETTask OnEventCloseInvoke(this ModelDisplayDemoViewComponent self)
-        {
-            await self.UIView.CloseAsync();
-        }
-
         #endregion YIUIEvent结束
     }
 }

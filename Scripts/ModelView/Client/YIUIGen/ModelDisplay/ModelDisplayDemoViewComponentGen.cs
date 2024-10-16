@@ -23,8 +23,8 @@ namespace ET.Client
         public EntityRef<YIUIViewComponent> u_UIView;
         public YIUIViewComponent UIView => u_UIView;
         public YIUIFramework.UI3DDisplay u_ComDisplay;
-        public UITaskEventP0 u_EventClose;
-        public UITaskEventHandleP0 u_EventCloseHandle;
+        public EntityRef<ET.Client.YIUICloseCommonComponent> u_UIYIUICloseCommon;
+        public ET.Client.YIUICloseCommonComponent UIYIUICloseCommon => u_UIYIUICloseCommon;
 
     }
 }

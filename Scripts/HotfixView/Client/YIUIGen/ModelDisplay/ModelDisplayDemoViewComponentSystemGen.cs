@@ -35,8 +35,7 @@ namespace ET.Client
             self.UIView.StackOption = EViewStackOption.VisibleTween;
 
             self.u_ComDisplay = self.UIBase.ComponentTable.FindComponent<YIUIFramework.UI3DDisplay>("u_ComDisplay");
-            self.u_EventClose = self.UIBase.EventTable.FindEvent<UITaskEventP0>("u_EventClose");
-            self.u_EventCloseHandle = self.u_EventClose.Add(self,"OnEventCloseInvoke");
+            self.u_UIYIUICloseCommon = self.UIBase.CDETable.FindUIOwner<ET.Client.YIUICloseCommonComponent>("YIUICloseCommon");
 
         }
     }
