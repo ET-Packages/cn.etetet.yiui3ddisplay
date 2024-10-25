@@ -6,11 +6,22 @@
 
 using System;
 using ET;
+using ET.Client;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
+namespace ET.Client
+{
+    public class YIUI3DDisplayInvoke
+    {
+        public const string OnDragInvoke        = "YIUI3DDisplayInvoke.OnDragInvoke";
+        public const string OnPointerDownInvoke = "YIUI3DDisplayInvoke.OnPointerDownInvoke";
+        public const string OnPointerUpInvoke   = "YIUI3DDisplayInvoke.OnPointerUpInvoke";
+    }
+}
 
 namespace YIUIFramework
 {
@@ -175,24 +186,24 @@ namespace YIUIFramework
 
         [NonSerialized]
         [HideInInspector]
-        public string m_OnClickInvokeName;
+        public bool OnClick; //需要手动开启是否需要点击事件
 
         public void OnDrag(PointerEventData eventData)
         {
             if (!m_CanDrag) return;
-            YIUIInvokeSystem.Instance?.Invoke(YIUI3DDisplayChild, "OnDrag", eventData);
+            YIUIInvokeSystem.Instance?.Invoke(YIUI3DDisplayChild, YIUI3DDisplayInvoke.OnDragInvoke, eventData);
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (string.IsNullOrEmpty(m_OnClickInvokeName)) return;
-            YIUIInvokeSystem.Instance?.Invoke(YIUI3DDisplayChild, "OnPointerDown", eventData);
+            if (!OnClick) return;
+            YIUIInvokeSystem.Instance?.Invoke(YIUI3DDisplayChild, YIUI3DDisplayInvoke.OnPointerDownInvoke, eventData);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (string.IsNullOrEmpty(m_OnClickInvokeName)) return;
-            YIUIInvokeSystem.Instance?.Invoke(YIUI3DDisplayChild, "OnPointerUp", eventData);
+            if (!OnClick) return;
+            YIUIInvokeSystem.Instance?.Invoke(YIUI3DDisplayChild, YIUI3DDisplayInvoke.OnPointerUpInvoke, eventData);
         }
 
         #if UNITY_EDITOR

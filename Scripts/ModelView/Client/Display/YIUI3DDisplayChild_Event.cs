@@ -29,19 +29,28 @@ namespace ET.Client
 
         public Entity OnClickedEntity => m_OnClickedEntity;
 
-        //被点击的触发实体的调用名称
-        //参数1 被点击的对象 参数2 他的最终父级是谁(显示对象)
-        private string m_OnClickInvokeName;
+        private Type m_IYIUI3DDisplayClickTypeSystem;
 
-        public string OnClickInvokeName
+        public Type YIUI3DDisplayClickTypeSystem
         {
-            get => m_OnClickInvokeName;
+            get
+            {
+                return m_IYIUI3DDisplayClickTypeSystem ??= typeof(IYIUI3DDisplayClick<>).MakeGenericType(OnClickedEntity?.GetType());
+            }
+        }
+
+        //需要手动开启是否需要点击事件
+        private bool m_OnClick;
+
+        public bool OnClick
+        {
+            get => m_OnClick;
             set
             {
-                m_OnClickInvokeName = value;
+                m_OnClick = value;
                 if (UI3DDisplay)
                 {
-                    UI3DDisplay.m_OnClickInvokeName = value;
+                    UI3DDisplay.OnClick = value;
                 }
             }
         }

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using YIUIFramework;
 
 namespace ET.Client
 {
@@ -14,27 +10,11 @@ namespace ET.Client
     /// </summary>
     public static partial class YIUI3DDisplayChildSystem
     {
-        //添加点击回调
-        //注意方法需要加上[YIUIInvoke]特性
-        public static void SetClickEvent(this YIUI3DDisplayChild self, Action<GameObject, GameObject> onClickInvoke)
-        {
-            var onClickInvokeName = onClickInvoke.GetMethodInfo().Name;
-            self.SetClickEvent(onClickInvokeName);
-        }
-
-        //添加点击回调
+        //开关点击回调
         //用此方法必须保证方法的参数为(GameObject, GameObject)
-        public static void SetClickEvent(this YIUI3DDisplayChild self, string onClickInvokeName)
+        public static void ResetOnClick(this YIUI3DDisplayChild self, bool value)
         {
-            self.m_OnClickedEntity = self.Parent;
-            self.OnClickInvokeName = onClickInvokeName;
-        }
-
-        //移除点击回调
-        public static void RemoveClickEvent(this YIUI3DDisplayChild self)
-        {
-            self.m_OnClickedEntity = null;
-            self.OnClickInvokeName = null;
+            self.OnClick = value;
         }
 
         //从屏幕坐标发送射线检测
@@ -63,7 +43,7 @@ namespace ET.Client
         }
 
         //拖拽
-        [YIUIInvoke]
+        [YIUIInvoke(YIUI3DDisplayInvoke.OnDragInvoke)]
         public static void OnDrag(this YIUI3DDisplayChild self, PointerEventData eventData)
         {
             if (!self.m_DragTarge || !(self.UI3DDisplay.m_DragSpeed > 0.0f)) return;
@@ -87,7 +67,7 @@ namespace ET.Client
         }
 
         //按下
-        [YIUIInvoke]
+        [YIUIInvoke(YIUI3DDisplayInvoke.OnPointerDownInvoke)]
         public static void OnPointerDown(this YIUI3DDisplayChild self, PointerEventData eventData)
         {
             if (self.UI3DDisplay.m_MultipleTargetMode)
@@ -102,7 +82,7 @@ namespace ET.Client
         }
 
         //抬起
-        [YIUIInvoke]
+        [YIUIInvoke(YIUI3DDisplayInvoke.OnPointerUpInvoke)]
         public static void OnPointerUp(this YIUI3DDisplayChild self, PointerEventData eventData)
         {
             if (!self.ClickSucceed(eventData.position))
@@ -116,8 +96,7 @@ namespace ET.Client
 
             try
             {
-                //参数1 被点击的对象 参数2 他的最终父级是谁(显示对象)
-                YIUIInvokeSystem.Instance?.Invoke(self.OnClickedEntity, self.OnClickInvokeName, clickObj, clickObjParent);
+                YIUI3DDisplayClickHelper.OnClick(self.YIUI3DDisplayClickTypeSystem, self.OnClickedEntity, self.UI3DDisplay, clickObj, clickObjParent);
             }
             catch (Exception e)
             {

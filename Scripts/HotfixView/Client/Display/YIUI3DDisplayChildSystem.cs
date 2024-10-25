@@ -17,6 +17,7 @@ namespace ET.Client
         private static void Awake(this YIUI3DDisplayChild self, UI3DDisplay ui3DDisplay)
         {
             self.m_UI3DDisplay                       = ui3DDisplay;
+            self.m_OnClickedEntity                   = self.Parent;
             self.UI3DDisplay.m_YIUI3DDisplayChildRef = self;
             self.Awake3DDisplay();
         }
@@ -25,7 +26,9 @@ namespace ET.Client
         private static void Destroy(this YIUI3DDisplayChild self)
         {
             self.Destroy3DDisplay();
-            self.m_UI3DDisplay = null;
+            self.UI3DDisplay.m_YIUI3DDisplayChildRef = default;
+            self.m_UI3DDisplay                       = null;
+            self.m_OnClickedEntity                   = default;
         }
     }
 }
