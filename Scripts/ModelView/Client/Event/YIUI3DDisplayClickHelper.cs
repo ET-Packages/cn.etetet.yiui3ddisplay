@@ -32,7 +32,7 @@ namespace ET.Client
                 }
                 catch (Exception e)
                 {
-                    Log.Error($"类:{self.GetType().Name} 事件回调错误 YIUI3DDisplayClick 请检查 {e.Message}");
+                    Log.Error($"类:{self.GetType().Name} 事件回调错误 YIUI3DDisplayClick 请检查 {e}");
                 }
             }
         }
