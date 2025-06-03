@@ -34,7 +34,9 @@ namespace ET.Client
 
         private static async ETTask Show(this ModelDisplayDemoViewComponent self)
         {
+            EntityRef<ModelDisplayDemoViewComponent> selfRef = self;
             await self.Display.ShowAsync("DisplayDemoModel", "CustomCamera");
+            self = selfRef;
             self.Display.ResetOnClick(true); //如果要点击模型显示详细信息， 必须打开点击事件
         }
 
