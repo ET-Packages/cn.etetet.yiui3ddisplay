@@ -105,7 +105,9 @@ namespace ET.Client
             if (self.UI3DDisplay == null) return;
 
             if (showObject != self.UI3DDisplay.m_ShowObject)
+            {
                 self.RecycleLastShow(self.UI3DDisplay.m_ShowObject);
+            }
 
             showObject.SetActive(true);
             self.SetColliderLayer(showObject);
@@ -195,7 +197,9 @@ namespace ET.Client
             self.UI3DDisplay.m_ShowCamera.cullingMask = 1 << self.m_ShowLayer;
 
             if (self.UI3DDisplay.m_ShowLight)
+            {
                 self.UI3DDisplay.m_ShowLight.cullingMask = self.UI3DDisplay.m_ShowCamera.cullingMask;
+            }
 
             var lookCameraTsf = lookCamera.transform;
             if (lookCamera == self.UI3DDisplay.m_ShowCamera)
@@ -216,7 +220,9 @@ namespace ET.Client
             Assert.IsNotNull(self.UI3DDisplay.m_ShowImage);
 
             if (self.m_ShowTexture != null)
+            {
                 RenderTexture.ReleaseTemporary(self.m_ShowTexture);
+            }
 
             self.m_ShowTexture                          = RenderTexture.GetTemporary(self.UI3DDisplay.m_ResolutionX, self.UI3DDisplay.m_ResolutionY, self.UI3DDisplay.m_RenderTextureDepthBuffer);
             self.UI3DDisplay.m_ShowImage.texture        = self.m_ShowTexture;
