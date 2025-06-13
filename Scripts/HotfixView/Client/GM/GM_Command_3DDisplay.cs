@@ -16,7 +16,7 @@ namespace ET.Client
 
         public async ETTask<bool> Run(Scene clientScene, ParamVo paramVo)
         {
-            TipsHelper.OpenSync<ModelDisplayDemoViewComponent>();
+            TipsHelper.OpenSync<ModelDisplayDemoViewComponent>(clientScene);
             await ETTask.CompletedTask;
             return true;
         }

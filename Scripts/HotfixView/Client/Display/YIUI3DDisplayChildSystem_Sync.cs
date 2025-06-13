@@ -44,7 +44,7 @@ namespace ET.Client
 
         private static GameObject CreateObject(this YIUI3DDisplayChild self, string resName)
         {
-            var obj = YIUIFactory.InstantiateGameObject("", resName);
+            var obj = YIUIFactory.InstantiateGameObject(self.Scene(), "", resName);
             if (obj == null) return null;
             return obj;
         }

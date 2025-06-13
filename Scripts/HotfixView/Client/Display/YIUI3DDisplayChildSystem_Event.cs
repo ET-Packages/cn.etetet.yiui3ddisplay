@@ -21,7 +21,7 @@ namespace ET.Client
         public static bool Raycast(this YIUI3DDisplayChild self, Vector2 screenPoint, out RaycastHit hitInfo)
         {
             var rect = self.UI3DDisplay.transform as RectTransform;
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPoint, YIUIMgrComponent.Inst.UICamera, out var localScreenPoint) == false)
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, screenPoint, self.YIUIMgr().UICamera, out var localScreenPoint) == false)
             {
                 hitInfo = default;
                 return false;
@@ -48,9 +48,9 @@ namespace ET.Client
         {
             if (!self.m_DragTarge || !(self.UI3DDisplay.m_DragSpeed > 0.0f)) return;
 
-            var delta    = eventData.delta.x;
+            var delta = eventData.delta.x;
             var deltaRot = -self.UI3DDisplay.m_DragSpeed * delta * Time.deltaTime;
-            var dragTsf  = self.m_DragTarge.transform;
+            var dragTsf = self.m_DragTarge.transform;
 
             if (self.UI3DDisplay.m_MultipleTargetMode)
             {
@@ -60,9 +60,9 @@ namespace ET.Client
             {
                 self.m_DragRotation += deltaRot;
                 var showRotation = Quaternion.Euler(self.UI3DDisplay.m_ShowRotation);
-                var showUp       = showRotation * Vector3.up;
-                showRotation     *= Quaternion.AngleAxis(self.m_DragRotation, showUp);
-                dragTsf.rotation =  showRotation;
+                var showUp = showRotation * Vector3.up;
+                showRotation *= Quaternion.AngleAxis(self.m_DragRotation, showUp);
+                dragTsf.rotation = showRotation;
             }
         }
 
@@ -91,7 +91,7 @@ namespace ET.Client
             if (!self.Raycast(eventData.position, out self.m_ClickRaycastHit))
                 return;
 
-            var clickObj       = self.m_ClickRaycastHit.collider.gameObject;
+            var clickObj = self.m_ClickRaycastHit.collider.gameObject;
             var clickObjParent = self.UI3DDisplay.m_MultipleTargetMode ? self.GetMultipleTargetByClick(clickObj) : self.UI3DDisplay.m_ShowObject;
 
             try
