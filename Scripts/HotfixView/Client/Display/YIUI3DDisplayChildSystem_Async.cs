@@ -20,7 +20,7 @@ namespace ET.Client
             }
 
             EntityRef<YIUI3DDisplayChild> selfRef = self;
-            using var coroutineLock = await self.Root().GetComponent<CoroutineLockComponent>().Wait(CoroutineLockType.YIUIFramework, self.GetHashCode());
+            using var _ = await self.Root().GetComponent<CoroutineLockComponent>().Wait(CoroutineLockType.YIUIFramework, self.GetHashCode());
             self = selfRef;
             var obj = await self.GetDisplayObjectAsync(resName);
             self = selfRef;
