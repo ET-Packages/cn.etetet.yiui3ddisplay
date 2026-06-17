@@ -36,11 +36,8 @@ namespace ET.Client
                 Debug.LogError($"{self.UI3DDisplay.gameObject.name} ShowCamera == null 这是不允许的 请检查 建议直接使用默认预制 不要自己修改");
             }
 
-            YIUI3DDisplayChild.g_DisPlayUIIndex++;
-            var offsetY = YIUI3DDisplayChild.g_DisPlayUIIndex * 100.0f;
-            if (YIUI3DDisplayChild.g_DisPlayUIIndex >= 2147)
-                YIUI3DDisplayChild.g_DisPlayUIIndex = 0;
-
+            var offsetIndex = (int)(self.Id % 2147);
+            var offsetY = offsetIndex * 100.0f;
             self.m_ModelGlobalOffset = new Vector3(0, offsetY, 0);
 
             if (self.UI3DDisplay.m_MultipleTargetMode)

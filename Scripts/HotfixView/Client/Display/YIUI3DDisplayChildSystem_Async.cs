@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using YIUIFramework;
@@ -20,7 +20,11 @@ namespace ET.Client
             }
 
             EntityRef<YIUI3DDisplayChild> selfRef = self;
+            #if ET9
             using var _ = await self.Root().GetComponent<CoroutineLockComponent>().Wait(CoroutineLockType.YIUIFramework, self.GetHashCode());
+            #else
+            using var _ = await self.Root().CoroutineLockComponent.Wait(CoroutineLockType.YIUIFramework, self.GetHashCode());
+            #endif
             self = selfRef;
             var obj = await self.GetDisplayObjectAsync(resName);
             self = selfRef;

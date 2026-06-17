@@ -34,10 +34,6 @@ namespace ET.Client
         //正交大小
         public float m_OrthographicSize;
 
-        //每显示一次就会+1 用于位置偏移
-        [StaticField]
-        public static int g_DisPlayUIIndex = 0;
-
         //当前模型偏移位置
         public Vector3 m_ModelGlobalOffset = Vector3.zero;
 
