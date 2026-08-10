@@ -12,6 +12,12 @@ namespace ET.Client
     /// </summary>
     public static partial class YIUI3DDisplayChildSystem
     {
+        private const int IsolationSlotCount = 2147; // 3D 展示实例用于避免同层模型互相入镜的隔离槽位总数。
+        private const int IsolationColumnCount = 47; // 隔离网格的列数，用于把槽位分布到二维空间。
+        private const int IsolationColumnCenterIndex = 23; // 隔离网格 X 轴中心列索引。
+        private const int IsolationRowCenterIndex = 22; // 隔离网格 Y 轴中心行索引。
+        private const float IsolationSpacing = 100.0f; // 相邻 3D 展示实例之间的世界空间距离，单位为 Unity 世界单位。
+
         private static void Awake3DDisplay(this YIUI3DDisplayChild self)
         {
             self.SetLayer();
@@ -28,7 +34,7 @@ namespace ET.Client
             {
                 if (self.UI3DDisplay.m_ShowObject == null)
                     self.UI3DDisplay.m_ShowCamera.enabled = false;
-                self.m_ShowCameraCtrl   = self.UI3DDisplay.m_ShowCamera.GetOrAddComponent<UI3DDisplayCamera>();
+                self.m_ShowCameraCtrl = self.UI3DDisplay.m_ShowCamera.GetOrAddComponent<UI3DDisplayCamera>();
                 self.m_ShowCameraDefPos = self.UI3DDisplay.m_ShowCamera.transform.localPosition;
             }
             else
@@ -36,9 +42,12 @@ namespace ET.Client
                 Debug.LogError($"{self.UI3DDisplay.gameObject.name} ShowCamera == null 这是不允许的 请检查 建议直接使用默认预制 不要自己修改");
             }
 
-            var offsetIndex = (int)(self.Id % 2147);
-            var offsetY = offsetIndex * 100.0f;
-            self.m_ModelGlobalOffset = new Vector3(0, offsetY, 0);
+            var offsetIndex = (int)(self.Id % IsolationSlotCount);
+            var offsetColumn = offsetIndex % IsolationColumnCount;
+            var offsetRow = offsetIndex / IsolationColumnCount;
+            var offsetX = (offsetColumn - IsolationColumnCenterIndex) * IsolationSpacing;
+            var offsetY = (offsetRow - IsolationRowCenterIndex) * IsolationSpacing;
+            self.m_ModelGlobalOffset = new Vector3(offsetX, offsetY, 0);
 
             if (self.UI3DDisplay.m_MultipleTargetMode)
                 self.InitRotationData();
@@ -55,10 +64,10 @@ namespace ET.Client
             if (self.m_ShowTexture != null)
             {
                 RenderTexture.ReleaseTemporary(self.m_ShowTexture);
-                self.m_ShowTexture                          = null;
-                self.UI3DDisplay.m_ShowImage.texture        = null;
+                self.m_ShowTexture = null;
+                self.UI3DDisplay.m_ShowImage.texture = null;
                 self.UI3DDisplay.m_ShowCamera.targetTexture = null;
-                self.UI3DDisplay.m_ShowCamera.enabled       = false;
+                self.UI3DDisplay.m_ShowCamera.enabled = false;
             }
 
             self.DisableMeshRectShadow();
@@ -99,7 +108,7 @@ namespace ET.Client
             if (self.UI3DDisplay.m_ShowCamera != null)
             {
                 self.UI3DDisplay.m_ShowCamera.targetTexture = self.m_ShowTexture;
-                self.UI3DDisplay.m_ShowCamera.enabled       = true;
+                self.UI3DDisplay.m_ShowCamera.enabled = true;
             }
         }
 
@@ -120,7 +129,7 @@ namespace ET.Client
             if (self.UI3DDisplay.m_ShowCamera != null)
             {
                 self.UI3DDisplay.m_ShowCamera.targetTexture = null;
-                self.UI3DDisplay.m_ShowCamera.enabled       = false;
+                self.UI3DDisplay.m_ShowCamera.enabled = false;
             }
         }
     }
