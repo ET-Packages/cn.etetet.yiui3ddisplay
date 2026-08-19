@@ -25,6 +25,23 @@ namespace ET.Client
             self.UI3DDisplay.m_ShowObject = null;
         }
 
+        //适用于换装后的刷新同步显示,否则还是显示老的模型
+        public static void RefreshShowRenderers(this YIUI3DDisplayChild self)
+        {
+            if (self.UI3DDisplay == null || self.UI3DDisplay.m_ShowObject == null)
+            {
+                return;
+            }
+
+            Transform showTransform = self.UI3DDisplay.m_ShowObject.transform;
+            self.SetupShowLayerTarget(showTransform);
+            self.DisableMeshRectShadow();
+            if (self.UI3DDisplay.m_ShadowPlane != null)
+            {
+                self.EnableMeshRectShadow(showTransform);
+            }
+        }
+
         //重置旋转
         public static void ResetRotation(this YIUI3DDisplayChild self)
         {
@@ -32,11 +49,11 @@ namespace ET.Client
             self.m_DragRotation = 0.0f;
             if (self.UI3DDisplay.m_ShowObject == null) return;
 
-            var showTsf      = self.UI3DDisplay.m_ShowObject.transform;
+            var showTsf = self.UI3DDisplay.m_ShowObject.transform;
             var showRotation = Quaternion.Euler(self.UI3DDisplay.m_ShowRotation);
-            var showUp       = showRotation * Vector3.up;
-            showRotation     *= Quaternion.AngleAxis(self.m_DragRotation, showUp);
-            showTsf.rotation =  showRotation;
+            var showUp = showRotation * Vector3.up;
+            showRotation *= Quaternion.AngleAxis(self.m_DragRotation, showUp);
+            showTsf.rotation = showRotation;
         }
 
         //设置旋转
@@ -46,11 +63,11 @@ namespace ET.Client
             self.UI3DDisplay.m_ShowRotation = rotation;
             if (self.UI3DDisplay.m_ShowObject == null) return;
 
-            var showTsf      = self.UI3DDisplay.m_ShowObject.transform;
+            var showTsf = self.UI3DDisplay.m_ShowObject.transform;
             var showRotation = Quaternion.Euler(self.UI3DDisplay.m_ShowRotation);
-            var showUp       = showRotation * Vector3.up;
-            showRotation     *= Quaternion.AngleAxis(self.m_DragRotation, showUp);
-            showTsf.rotation =  showRotation;
+            var showUp = showRotation * Vector3.up;
+            showRotation *= Quaternion.AngleAxis(self.m_DragRotation, showUp);
+            showTsf.rotation = showRotation;
         }
 
         //设置位置偏移
@@ -62,7 +79,7 @@ namespace ET.Client
 
             var showTsf = self.UI3DDisplay.m_ShowObject.transform;
             showTsf.localPosition = self.m_ModelGlobalOffset + self.UI3DDisplay.m_ShowOffset;
-            self.m_ShowPosition   = showTsf.localPosition;
+            self.m_ShowPosition = showTsf.localPosition;
         }
 
         //设置大小
